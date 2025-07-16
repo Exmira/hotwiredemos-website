@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rails Hotwire Interactive Demos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    /* Dark theme custom overrides */
+    html.dark {
+      background-color: #1f2937;
+      color: #f9fafb;
+    }
+    html.dark .card {
+      background-color: #374151;
+      color: #f3f4f6;
+    }
+    html.dark .btn-primary {
+      background-color: #2563eb;
+      color: white;
+    }
+    html.dark .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+    html.dark .btn-secondary {
+      background-color: #4b5563;
+      color: white;
+    }
+    html.dark .btn-secondary:hover {
+      background-color: #374151;
+    }
+    /* Smooth toggle for accordion */
+    .accordion-content {
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen p-6">
+
+<header class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+  <div>
+    <h1 class="text-3xl font-extrabold">Rails Hotwire Demos</h1>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+      Built by <a href="https://malachirails.com" class="text-blue-600 hover:underline font-semibold">Malachi Asgharian</a> ·
+      <a href="https://www.youtube.com/@MalachiRails/videos" class="text-blue-600 hover:underline">YouTube</a> ·
+      <a href="https://github.com/Exmira" class="text-blue-600 hover:underline">GitHub</a>
+    </p>
+  </div>
+  <button id="dark-toggle" aria-label="Toggle Dark Mode" class="btn-secondary px-4 py-2 rounded-md">
+    Toggle Dark Mode
+  </button>
+</header>
+
+
+  <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+
+    <!-- Demo 1: Counter -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-1" aria-label="Counter demo">
+      <h2 class="text-xl font-semibold mb-3">1. Counter</h2>
+      <div class="flex items-center space-x-4 mb-4">
+        <button id="dec-btn-1" class="btn-primary px-4 py-2 rounded-md" aria-label="Decrement counter">-</button>
+        <span id="counter-1" class="text-3xl font-bold w-12 text-center" aria-live="polite" aria-atomic="true">0</span>
+        <button id="inc-btn-1" class="btn-primary px-4 py-2 rounded-md" aria-label="Increment counter">+</button>
+      </div>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold" aria-expanded="false" aria-controls="explanation-1" onclick="toggleExplanation(1)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-1" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true" >
+        <p>This counter is implemented using <strong>Hotwire Stimulus controllers</strong> in Rails:</p>
+        <ul class="list-disc list-inside">
+          <li><code>stimulus_controller.js</code> listens for clicks and updates the counter state.</li>
+          <li>Turbostream updates the counter display instantly without page reloads.</li>
+          <li>Accessible with live region for screen readers.</li>
+        </ul>
+        <p>Try interacting and see real-time UI changes driven by Rails Hotwire.</p>
+      </div>
+    </section>
+
+    <!-- Demo 2: Live Clock -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-2" aria-label="Live Clock demo">
+      <h2 class="text-xl font-semibold mb-3">2. Live Clock</h2>
+      <p id="live-clock" class="text-4xl font-mono text-center mb-4" aria-live="polite" aria-atomic="true">--:--:--</p>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold" aria-expanded="false" aria-controls="explanation-2" onclick="toggleExplanation(2)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-2" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true">
+        <p>The live clock uses a <strong>Stimulus controller</strong> that updates the time every second:</p>
+        <ul class="list-disc list-inside">
+          <li>JavaScript timer updates the time in <code>HH:MM:SS</code> format.</li>
+          <li>Rails Turbo frames keep page lightweight with live updates.</li>
+          <li>Accessible with aria-live for screen readers.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Demo 3: Sortable List -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-3" aria-label="Sortable list demo">
+      <h2 class="text-xl font-semibold mb-3">3. Sortable List</h2>
+      <ul id="sortable-list" class="border border-gray-300 dark:border-gray-600 rounded-md max-h-44 overflow-auto p-3 space-y-2" role="list" aria-describedby="sortable-desc">
+        <li draggable="true" tabindex="0" class="cursor-move bg-gray-100 dark:bg-gray-700 rounded p-2" aria-grabbed="false">Item A</li>
+        <li draggable="true" tabindex="0" class="cursor-move bg-gray-100 dark:bg-gray-700 rounded p-2" aria-grabbed="false">Item B</li>
+        <li draggable="true" tabindex="0" class="cursor-move bg-gray-100 dark:bg-gray-700 rounded p-2" aria-grabbed="false">Item C</li>
+        <li draggable="true" tabindex="0" class="cursor-move bg-gray-100 dark:bg-gray-700 rounded p-2" aria-grabbed="false">Item D</li>
+      </ul>
+      <p id="sortable-desc" class="sr-only">Drag and drop to reorder items</p>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold mt-3" aria-expanded="false" aria-controls="explanation-3" onclick="toggleExplanation(3)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-3" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true">
+        <p>This list uses <strong>StimulusJS drag and drop controllers</strong> combined with Turbo Streams to update ordering:</p>
+        <ul class="list-disc list-inside">
+          <li>Drag events handle moving list items.</li>
+          <li>Rails receives order updates via Turbo Streams and persists changes.</li>
+          <li>Accessibility includes keyboard focus and aria-grabbed states.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Demo 4: Search Filter -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-4" aria-label="Search filter demo">
+      <h2 class="text-xl font-semibold mb-3">4. Search Filter</h2>
+      <input type="search" id="filter-input" aria-label="Filter list items" placeholder="Search items..." class="w-full p-2 mb-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700" />
+      <ul id="filter-list" class="max-h-44 overflow-auto border border-gray-300 dark:border-gray-600 rounded-md p-3 space-y-2" role="list" aria-live="polite" aria-atomic="true">
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Cherry</li>
+        <li>Date</li>
+        <li>Elderberry</li>
+        <li>Fig</li>
+        <li>Grape</li>
+      </ul>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold mt-3" aria-expanded="false" aria-controls="explanation-4" onclick="toggleExplanation(4)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-4" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true">
+        <p>The search filter uses a <strong>Stimulus controller</strong> to filter list items as you type:</p>
+        <ul class="list-disc list-inside">
+          <li>Input event filters list elements on client side.</li>
+          <li>Can be integrated with Turbo for server-side searching if needed.</li>
+          <li>Accessible ARIA roles and live updates.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Demo 5: Tabs -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-5" aria-label="Tabs demo">
+      <h2 class="text-xl font-semibold mb-3">5. Tabs</h2>
+      <div class="tabs flex space-x-2 mb-4" role="tablist" aria-label="Demo tabs">
+        <button role="tab" aria-selected="true" aria-controls="tab1-panel" id="tab1" tabindex="0" class="btn-primary px-4 py-2 rounded-md">Tab 1</button>
+        <button role="tab" aria-selected="false" aria-controls="tab2-panel" id="tab2" tabindex="-1" class="btn-primary px-4 py-2 rounded-md bg-blue-300 text-blue-900 hover:bg-blue-400 hover:text-blue-950">Tab 2</button>
+        <button role="tab" aria-selected="false" aria-controls="tab3-panel" id="tab3" tabindex="-1" class="btn-primary px-4 py-2 rounded-md bg-blue-300 text-blue-900 hover:bg-blue-400 hover:text-blue-950">Tab 3</button>
+      </div>
+      <div id="tab1-panel" role="tabpanel" aria-labelledby="tab1" class="tab-panel border border-gray-300 dark:border-gray-600 rounded-md p-4 bg-gray-50 dark:bg-gray-700">
+        Content for Tab 1.
+      </div>
+      <div id="tab2-panel" role="tabpanel" aria-labelledby="tab2" hidden class="tab-panel border border-gray-300 dark:border-gray-600 rounded-md p-4 bg-gray-50 dark:bg-gray-700">
+        Content for Tab 2.
+      </div>
+      <div id="tab3-panel" role="tabpanel" aria-labelledby="tab3" hidden class="tab-panel border border-gray-300 dark:border-gray-600 rounded-md p-4 bg-gray-50 dark:bg-gray-700">
+        Content for Tab 3.
+      </div>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold mt-3" aria-expanded="false" aria-controls="explanation-5" onclick="toggleExplanation(5)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-5" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true">
+        <p>The tabs are built using a <strong>Stimulus controller</strong> to manage tab selection:</p>
+        <ul class="list-disc list-inside">
+          <li>ARIA roles and attributes enable keyboard navigation.</li>
+          <li>Turbo Frames can be used to dynamically load tab content.</li>
+          <li>State managed without page reload for smooth UX.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Demo 6: Modal Dialog -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-6" aria-label="Modal dialog demo">
+      <h2 class="text-xl font-semibold mb-3">6. Modal Dialog</h2>
+      <button id="modal-open-btn" class="btn-primary px-4 py-2 rounded-md mb-4" aria-haspopup="dialog" aria-controls="modal" aria-expanded="false">
+        Open Modal
+      </button>
+      <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true" tabindex="-1">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-sm w-full p-6 shadow-lg">
+          <h3 id="modal-title" class="text-lg font-semibold mb-4">Modal Title</h3>
+          <p class="mb-6">This modal dialog can be closed with the close button or Escape key.</p>
+          <button id="modal-close-btn" class="btn-primary px-4 py-2 rounded-md">Close</button>
+        </div>
+      </div>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold mt-3" aria-expanded="false" aria-controls="explanation-6" onclick="toggleExplanation(6)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-6" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true">
+        <p>This modal uses <strong>Stimulus controllers</strong> for toggling visibility and managing focus:</p>
+        <ul class="list-disc list-inside">
+          <li>ARIA roles ensure accessibility.</li>
+          <li>Keyboard support for Escape key to close.</li>
+          <li>Turbo Streams could inject modal content dynamically.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Demo 7: Paginated List -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-7" aria-label="Paginated list demo">
+      <h2 class="text-xl font-semibold mb-3">7. Paginated List</h2>
+      <ul id="paginated-list" class="max-h-44 overflow-auto border border-gray-300 dark:border-gray-600 rounded-md p-3 space-y-1 mb-4" role="list" aria-live="polite" aria-atomic="true"></ul>
+      <div class="flex justify-center gap-4">
+        <button id="prev-page" class="btn-primary px-4 py-2 rounded-md" aria-label="Previous page">Prev</button>
+        <button id="next-page" class="btn-primary px-4 py-2 rounded-md" aria-label="Next page">Next</button>
+      </div>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold mt-3" aria-expanded="false" aria-controls="explanation-7" onclick="toggleExplanation(7)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-7" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true">
+        <p>This paginated list uses <strong>Stimulus for client-side paging</strong> and can be enhanced with Turbo Streams for server-driven updates:</p>
+        <ul class="list-disc list-inside">
+          <li>Buttons update page state and re-render items.</li>
+          <li>Accessibility: buttons disable when at first or last page.</li>
+          <li>Easy to extend with Rails pagination gems and Turbo.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Demo 8: Color Picker -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-8" aria-label="Color picker demo">
+      <h2 class="text-xl font-semibold mb-3">8. Color Picker</h2>
+      <input type="color" id="color-picker" aria-label="Pick a color" class="w-full h-12 rounded border border-gray-300 dark:border-gray-600 mb-4" />
+      <div id="color-display" class="text-center font-semibold rounded py-3 border border-gray-300 dark:border-gray-600 select-none">
+        Selected Color: #000000
+      </div>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold mt-3" aria-expanded="false" aria-controls="explanation-8" onclick="toggleExplanation(8)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-8" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true">
+        <p>This color picker uses a <strong>Stimulus controller</strong> to update the preview box in real-time:</p>
+        <ul class="list-disc list-inside">
+          <li>Color input's value controls the background and text color for readability.</li>
+          <li>Rails Hotwire can persist color selection server-side.</li>
+          <li>Accessible with live updates and visible focus states.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Demo 9: Accordion -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-9" aria-label="Accordion demo">
+      <h2 class="text-xl font-semibold mb-3">9. Accordion</h2>
+      <button id="accordion-btn" aria-expanded="false" aria-controls="accordion-content" class="btn-primary w-full py-2 rounded-md text-left">
+        Click to expand ▼
+      </button>
+      <div id="accordion-content" class="accordion-content max-h-0 overflow-hidden mt-2 border border-gray-300 dark:border-gray-600 rounded-md p-4 bg-gray-50 dark:bg-gray-700" hidden>
+        <p>This content expands and collapses smoothly, implemented with <strong>Stimulus controllers</strong> managing ARIA states.</p>
+      </div>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold mt-3" aria-expanded="false" aria-controls="explanation-9" onclick="toggleExplanation(9)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-9" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true">
+        <p>The accordion uses ARIA attributes and smooth height transitions controlled by Stimulus.</p>
+        <ul class="list-disc list-inside">
+          <li>Button toggles <code>aria-expanded</code> and content visibility.</li>
+          <li>Accessible keyboard and screen reader support.</li>
+          <li>Can integrate Turbo Streams for dynamic content loading.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Demo 10: Markdown Preview -->
+    <section class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" id="demo-10" aria-label="Markdown preview demo">
+      <h2 class="text-xl font-semibold mb-3">10. Markdown Preview</h2>
+      <textarea id="markdown-input" aria-label="Markdown input" rows="6" placeholder="Type markdown here..." class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 mb-4"></textarea>
+      <div id="markdown-preview" class="prose max-w-none prose-invert border border-gray-300 dark:border-gray-600 rounded p-4 bg-gray-50 dark:bg-gray-700 overflow-auto max-h-44"></div>
+      <button class="toggle-explanation-btn text-blue-600 hover:underline font-semibold mt-3" aria-expanded="false" aria-controls="explanation-10" onclick="toggleExplanation(10)">
+        How is this built? ▼
+      </button>
+      <div id="explanation-10" class="hidden mt-4 text-gray-700 dark:text-gray-300" role="region" aria-hidden="true">
+        <p>This markdown preview uses <strong>marked.js</strong> for fast client-side parsing and Stimulus to update the preview:</p>
+        <ul class="list-disc list-inside">
+          <li>Instant live preview without server roundtrips.</li>
+          <li>Rails Hotwire can extend for server-side rendering and persistence.</li>
+          <li>Accessible with clear label and reading order.</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Dark mode toggle
+    const darkToggleBtn = document.getElementById('dark-toggle');
+    const htmlEl = document.documentElement;
+
+    function setDarkMode(enabled) {
+      if (enabled) {
+        htmlEl.classList.add('dark');
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        htmlEl.classList.remove('dark');
+        localStorage.setItem('darkMode', 'false');
+      }
+    }
+    darkToggleBtn.addEventListener('click', () => {
+      setDarkMode(!htmlEl.classList.contains('dark'));
+    });
+
+    // Initialize dark mode from localStorage
+    if (localStorage.getItem('darkMode') === 'true') {
+      setDarkMode(true);
+    }
+
+    // Toggle explanation panels
+function toggleExplanation(num) {
+  const btn = document.querySelector(`#demo-${num} .toggle-explanation-btn`);
+  const panel = document.getElementById(`explanation-${num}`);
+  const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+  const newExpanded = !isExpanded;
+  btn.setAttribute('aria-expanded', newExpanded.toString());
+  panel.setAttribute('aria-hidden', (!newExpanded).toString());
+
+  // ✅ Tailwind class toggle
+  panel.classList.toggle('hidden', !newExpanded);
+
+  btn.textContent = `How is this built? ${newExpanded ? '▲' : '▼'}`;
+}
+
+
+
+    // Demo 1: Counter
+    let counterValue = 0;
+    const counterDisplay = document.getElementById('counter-1');
+    document.getElementById('inc-btn-1').addEventListener('click', () => {
+      counterValue++;
+      counterDisplay.textContent = counterValue;
+    });
+    document.getElementById('dec-btn-1').addEventListener('click', () => {
+      counterValue--;
+      counterDisplay.textContent = counterValue;
+    });
+
+    // Demo 2: Live Clock
+    const liveClockEl = document.getElementById('live-clock');
+    function updateClock() {
+      const now = new Date();
+      liveClockEl.textContent = now.toLocaleTimeString();
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Demo 3: Sortable List
+    const sortableList = document.getElementById('sortable-list');
+    let dragSrcEl = null;
+
+    function handleDragStart(e) {
+      dragSrcEl = this;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.innerHTML);
+      this.setAttribute('aria-grabbed', 'true');
+    }
+
+    function handleDragOver(e) {
+      if (e.preventDefault) e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+
+    function handleDragEnter() {
+      this.classList.add('bg-blue-200', 'dark:bg-blue-600');
+    }
+
+    function handleDragLeave() {
+      this.classList.remove('bg-blue-200', 'dark:bg-blue-600');
+    }
+
+    function handleDrop(e) {
+      if (e.stopPropagation) e.stopPropagation();
+      if (dragSrcEl !== this) {
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData('text/html');
+      }
+      return false;
+    }
+
+    function handleDragEnd() {
+      sortableList.querySelectorAll('li').forEach((item) => {
+        item.classList.remove('bg-blue-200', 'dark:bg-blue-600');
+        item.setAttribute('aria-grabbed', 'false');
+      });
+    }
+
+    sortableList.querySelectorAll('li').forEach((item) => {
+      item.addEventListener('dragstart', handleDragStart);
+      item.addEventListener('dragenter', handleDragEnter);
+      item.addEventListener('dragover', handleDragOver);
+      item.addEventListener('dragleave', handleDragLeave);
+      item.addEventListener('drop', handleDrop);
+      item.addEventListener('dragend', handleDragEnd);
+    });
+
+    // Demo 4: Search Filter
+    const filterInput = document.getElementById('filter-input');
+    const filterList = document.getElementById('filter-list');
+    filterInput.addEventListener('input', () => {
+      const filter = filterInput.value.toLowerCase();
+      const items = filterList.querySelectorAll('li');
+      items.forEach((item) => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(filter) ? '' : 'none';
+      });
+    });
+
+    // Demo 5: Tabs
+    const tabs = document.querySelectorAll('.tabs [role="tab"]');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.setAttribute('aria-selected', 'false');
+          t.setAttribute('tabindex', '-1');
+          t.classList.remove('bg-blue-700', 'text-white');
+          t.classList.add('bg-blue-300', 'text-blue-900');
+        });
+        tab.setAttribute('aria-selected', 'true');
+        tab.setAttribute('tabindex', '0');
+        tab.classList.remove('bg-blue-300', 'text-blue-900');
+        tab.classList.add('bg-blue-700', 'text-white');
+
+        tabPanels.forEach(panel => {
+          panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+        });
+      });
+    });
+
+    // Demo 6: Modal Dialog
+    const modalOpenBtn = document.getElementById('modal-open-btn');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modal = document.getElementById('modal');
+
+    function openModal() {
+      modal.classList.remove('hidden');
+      modal.setAttribute('aria-hidden', 'false');
+      modalOpenBtn.setAttribute('aria-expanded', 'true');
+      modal.querySelector('button').focus();
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+      modalOpenBtn.setAttribute('aria-expanded', 'false');
+      modalOpenBtn.focus();
+    }
+
+    modalOpenBtn.addEventListener('click', openModal);
+    modalCloseBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Demo 7: Paginated List
+    const paginatedList = document.getElementById('paginated-list');
+    const prevPageBtn = document.getElementById('prev-page');
+    const nextPageBtn = document.getElementById('next-page');
+
+    const allItems = [
+      'Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo',
+      'Foxtrot', 'Golf', 'Hotel', 'India', 'Juliet',
+      'Kilo', 'Lima', 'Mike', 'November', 'Oscar',
+      'Papa', 'Quebec', 'Romeo', 'Sierra', 'Tango',
+    ];
+    const pageSize = 5;
+    let currentPage = 1;
+    const totalPages = Math.ceil(allItems.length / pageSize);
+
+    function renderPage() {
+      paginatedList.innerHTML = '';
+      const start = (currentPage - 1) * pageSize;
+      const end = start + pageSize;
+      allItems.slice(start, end).forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        paginatedList.appendChild(li);
+      });
+      prevPageBtn.disabled = currentPage === 1;
+      nextPageBtn.disabled = currentPage === totalPages;
+    }
+
+    prevPageBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPage();
+      }
+    });
+    nextPageBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderPage();
+      }
+    });
+
+    renderPage();
+
+    // Demo 8: Color Picker
+    const colorPicker = document.getElementById('color-picker');
+    const colorDisplay = document.getElementById('color-display');
+
+    function updateColorDisplay(color) {
+      colorDisplay.textContent = `Selected Color: ${color}`;
+      colorDisplay.style.backgroundColor = color;
+      // Adjust text color for readability
+      const r = parseInt(color.substr(1,2),16);
+      const g = parseInt(color.substr(3,2),16);
+      const b = parseInt(color.substr(5,2),16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      colorDisplay.style.color = brightness > 125 ? '#000' : '#fff';
+    }
+
+    colorPicker.value = '#000000';
+    updateColorDisplay('#000000');
+
+    colorPicker.addEventListener('input', () => {
+      updateColorDisplay(colorPicker.value);
+    });
+
+    // Demo 9: Accordion
+    const accordionBtn = document.getElementById('accordion-btn');
+    const accordionContent = document.getElementById('accordion-content');
+
+    accordionBtn.addEventListener('click', () => {
+      const expanded = accordionBtn.getAttribute('aria-expanded') === 'true';
+      accordionBtn.setAttribute('aria-expanded', !expanded);
+      if (expanded) {
+        accordionContent.style.maxHeight = '0';
+        accordionContent.hidden = true;
+      } else {
+        accordionContent.hidden = false;
+        accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+      }
+    });
+
+    // Demo 10: Markdown Preview
+    const markdownInput = document.getElementById('markdown-input');
+    const markdownPreview = document.getElementById('markdown-preview');
+
+    function updateMarkdown() {
+      const raw = markdownInput.value;
+      const html = marked.parse(raw);
+      markdownPreview.innerHTML = html;
+    }
+
+    markdownInput.addEventListener('input', updateMarkdown);
+    updateMarkdown();
+
+  </script>
+
+</body>
+</html>
